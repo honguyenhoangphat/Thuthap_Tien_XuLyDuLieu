@@ -28,18 +28,27 @@ for year in range(2017, 2024):
     tooltip = driver.find_element(By.CLASS_NAME, 'tooltips')
     value = tooltip.text
     print(value)
-    data.append(value)
+
+    # Tách dữ liệu thành năm và GDP
+    if value:
+        parts = value.split('\n')
+        if len(parts) == 2:
+            year_text = parts[0].split('(')[-1].replace(')', '')  # Lấy phần năm
+            gdp_value = parts[1] + ' USD'
+            data.append([year_text, gdp_value])
 
 # Đóng trình duyệt
 driver.quit()
-#
-# Xử lý dữ liệu thành DataFrame
-df = pd.DataFrame(data, columns=['GDP Data'])
+
+# Xử lý dữ liệu thành DataFrame với 2 cột
+df = pd.DataFrame(data, columns=['Year', 'GDP'])
 print(df)
 
 # Lưu vào file CSV hoặc Excel
 df.to_csv('GDP.csv', index=False, encoding='utf-8')
 print("Dữ liệu đã được lưu vào CSV thành công!")
+
+
 
 
 
