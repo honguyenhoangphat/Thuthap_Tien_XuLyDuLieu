@@ -28,7 +28,6 @@ driver.get("https://vietnamtourism.gov.vn/statistic/international?year=2019&peri
 data = []
 years = ['2019','2020','2021','2022','2023','2024']
 months = ['t1', 't2', 't3','t4','t5','t6','t7','t8','t9','t10','t11','t12']
-
 for year in years:
     year_dropdown = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.ID, "statistic-year"))
@@ -63,30 +62,21 @@ for year in years:
             
             
     # Tìm tất cả các dòng có class 'data-row'
-            # Tìm tất cả các dòng <tr> rồi lọc theo class trong Python
-            rows = driver.find_elements(By.TAG_NAME, "tr")
-            
-            filtered_rows = [row for row in rows if 'data-row' in row.get_attribute('class') or 'total-row' in row.get_attribute('class')]
-            
-            if not filtered_rows:  # Nếu không tìm thấy bất kỳ dòng dữ liệu nào
+            rows = driver.find_elements(By.XPATH, "//tr[@class='data-row']")
+            if not rows:  # Nếu không tìm thấy bất kỳ dòng dữ liệu nào
                 print(f"Không có dữ liệu cho {month}/{year}. Thêm dữ liệu mặc định.")
-                row_data = [year, month, 'Không có dữ liệu', 0, 0, 0, 0, pd.NA, pd.NA]
+                row_data = [year, month, 'Không có dữ liệu', 0, 0, 0, 0, 0, pd.NA,pd.NA]
                 data.append(row_data)
             else:
-                for row in filtered_rows:
+                for row in rows:
                     cells = row.find_elements(By.TAG_NAME, "td")
                     row_data = [cell.text if cell.text.strip() else pd.NA for cell in cells]
                     while len(row_data) < 8:
                         row_data.append(pd.NA)
-            
-                    if 'total-row' in row.get_attribute('class'):
-                        row_data.insert(0, 'Tổng cộng')
-                    else:
-                        row_data.insert(0, month)
                     
+                    row_data.insert(0, month)
                     row_data.insert(0, year)
                     data.append(row_data)
-
             
         except TimeoutException:
             print(f"Timeout cho {month}/{year}. Thêm dữ liệu mặc định.")
