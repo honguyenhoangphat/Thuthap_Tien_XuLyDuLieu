@@ -12,7 +12,6 @@ url = "https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?end=2023&locations=VN
 driver.get(url)
 
 time.sleep(5)  # Đợi trang web tải hoàn tất
-
 # Tìm biểu đồ và di chuột để lấy dữ liệu
 chart = driver.find_element(By.CLASS_NAME, 'd3-chart')
 actions = ActionChains(driver)
