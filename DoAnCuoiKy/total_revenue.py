@@ -38,7 +38,7 @@ driver.quit()
 df = pd.DataFrame(data, columns=["Năm", "Tổng thu từ khách du lịch (nghìn tỷ đồng)", "Tốc độ tăng trưởng (%)"])
 
 # Lưu vào file CSV hoặc Excel
-df.to_csv('tong_thu_du_lich.csv', index=False, encoding='utf-8')
+df.to_csv('total_revenue.csv', index=False, encoding='utf-8-sig')
 print("Dữ liệu đã được lưu vào CSV thành công!")
 
 # df.to_excel('tong_thu_du_lich.xlsx', index=False,  engine='openpyxl')
